@@ -31,11 +31,14 @@ function playGame(){
             computerScore++;
             return "You lose this round, " + c + " beats " + h + "!";            
         }
+
         console.log(result(humanSelection ,computerSelection));
     }
+
     if(humanScore > computerScore)
         console.log("You won the game!");
     else console.log("You lost the game!");
+    
     console.log("Score human-computer: " + humanScore + "-" + computerScore);
 }
 
