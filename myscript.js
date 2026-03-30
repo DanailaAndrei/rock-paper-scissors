@@ -7,39 +7,45 @@ function getComputerChoice(){
     return "scissors";
 }
 
-function getHumanChoice(){
-    return prompt("Choose rock, paper or scissors").toLowerCase();
+// THIS FUNCTION IS NOT USED ANYMORE. I DECIDED TO JUST COMMENT IT, INSTEAD OF DELETING IT
+// function getHumanChoice(){
+//     return prompt("Choose rock, paper or scissors").toLowerCase();
+// }
+
+function playRound(h, c){
+    let choice = "You picked " + h + ". Computer picked " + c + ". "; 
+    if (h == c)
+        return choice + "It's a tie.";
+    if ((h == "rock" && c == "scissors") || (h == "paper" && c == "rock") || (h == "scissors" && c == "paper")){
+        humanScore++;
+        return choice + "You win this round, " + h + " beats " + c + "!";
+    } 
+    computerScore++;
+    return choice + "You lose this round, " + c + " beats " + h + "!";           
 }
 
 function playGame(){
-    let humanScore = 0, computerScore = 0;
-
-    for(let i = 1; i <= 5; i++){
-        console.log("Round " + i + ":");
-        const humanSelection = getHumanChoice();
-        console.log("You chose " + humanSelection);
-        const computerSelection = getComputerChoice();
-        console.log("Computer chose " + computerSelection);
-
-        let result = (h ,c) => {
-            if (h == c)
-                return "It's a tie.";
-            if ((h == "rock" && c == "scissors") || (h == "paper" && c == "rock") || (h == "scissors" && c == "paper")){
-                humanScore++;
-                return "You win this round, " + h + " beats " + c + "!";
-            } 
-            computerScore++;
-            return "You lose this round, " + c + " beats " + h + "!";            
-        }
-
-        console.log(result(humanSelection ,computerSelection));
-    }
-
-    if(humanScore > computerScore)
-        console.log("You won the game!");
-    else console.log("You lost the game!");
+    let btns = document.getElementsByTagName("button");
     
-    console.log("Score human-computer: " + humanScore + "-" + computerScore);
+    for(let i = 0; i < btns.length; i++){
+        btns[i].addEventListener("click", (e) => {
+            let result = playRound(e.target.id, getComputerChoice());
+            let score = "<br>" + "Score human-computer: " + humanScore + "-" + computerScore;
+            let final = "";
+            document.getElementById("score").innerHTML = result + " " + score;
+            
+            if(humanScore == 5 || computerScore == 5){
+                if(humanScore > computerScore)
+                    final = "You won the game!";
+                else final = "You lost the game!";
+                document.getElementById("score").innerHTML += "<br>" + final;
+                humanScore = 0;
+                computerScore = 0;
+            }
+        });
+    }
 }
+
+let humanScore = 0, computerScore = 0;
 
 playGame();
